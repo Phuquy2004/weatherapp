@@ -1,0 +1,15 @@
+workflows:
+  ios-build:
+    name: Build iOS App
+    environment:
+      vars:
+        XCODE_PROJECT: "iosApp.xcodeproj"  # Thay thế tên project của bạn
+        XCODE_SCHEME: "iosApp"  # Tên scheme của bạn
+    scripts:
+      - name: Build IPA
+        script: |
+          cd iosApp
+          xcodebuild -scheme iosApp -sdk iphoneos -configuration Release archive -archivePath $HOME/build/iosApp.xcarchive
+          xcodebuild -exportArchive -archivePath $HOME/build/iosApp.xcarchive -exportPath $HOME/build/iosApp -exportOptionsPlist ExportOptions.plist
+    artifacts:
+      - build/iosApp/*.ipa  # Lưu file IPA sau khi build
